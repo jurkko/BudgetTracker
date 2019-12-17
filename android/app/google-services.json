@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "378651873217",
+    "firebase_url": "https://budget-sidekick.firebaseio.com",
+    "project_id": "budget-sidekick",
+    "storage_bucket": "budget-sidekick.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378651873217:android:1ef131dbd82d381c5ae940",
+        "android_client_info": {
+          "package_name": "budgetsidekick.budget_sidekick"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "378651873217-1hvob2dr72pelhbmpc9eofql87r6akp4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYEyVXYeMxZtpXEEbYiZDtrBlP7KJPcnQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "378651873217-1hvob2dr72pelhbmpc9eofql87r6akp4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

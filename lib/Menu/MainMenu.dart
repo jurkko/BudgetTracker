@@ -1,4 +1,5 @@
 import 'package:budget_sidekick/Expenses/Expenses.dart';
+import 'package:budget_sidekick/Event/Events.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:budget_sidekick/Expenses/AddExpense.dart';
@@ -107,18 +108,19 @@ class Menu extends StatelessWidget {
                           color: Colors.black87,
                         ),
                       ),
-                      Container(
-                        width: 150,
-                        height: 150,
+                      RaisedButton(
                         child: Icon(
                           Icons.event,
                           size: 100,
                           color: Colors.white,
                         ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.black87,
-                        ),
+                        onPressed: () {
+                          //Navigator.pushNamed(context, AddExpense.id);
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => new Events()));
+                        },
                       ),
                     ],
                   )

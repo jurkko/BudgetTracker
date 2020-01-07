@@ -1,3 +1,4 @@
+import 'package:budget_sidekick/Event/AddEvent.dart';
 import 'package:budget_sidekick/Expenses/AddExpense.dart';
 import 'package:budget_sidekick/Menu/MainMenu.dart';
 import 'package:budget_sidekick/RegistrationAndLogin/Login.dart';
@@ -27,6 +28,7 @@ class BudgetTracker extends StatelessWidget {
         RegistrationScreen.id: (context) => RegistrationScreen(),
         Start.id: (context) => Start(),
         AddExpense.id: (context) => AddExpense(),
+        AddEvent.id: (context) => AddEvent(),
       },
     );
   }

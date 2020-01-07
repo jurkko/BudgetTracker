@@ -1,3 +1,4 @@
+import 'package:budget_sidekick/Expenses/Expenses.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:budget_sidekick/Expenses/AddExpense.dart';
@@ -68,7 +69,11 @@ class Menu extends StatelessWidget {
                           size: 100,
                         ),
                         onPressed: () {
-                          Navigator.pushNamed(context, AddExpense.id);
+                          //Navigator.pushNamed(context, AddExpense.id);
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => new Expenses()));
                         },
                       ),
                       Container(

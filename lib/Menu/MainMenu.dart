@@ -1,4 +1,5 @@
 import 'package:budget_sidekick/Expenses/Expenses.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:budget_sidekick/Expenses/AddExpense.dart';
@@ -57,68 +58,73 @@ class Menu extends StatelessWidget {
             ),
             backgroundColor: Colors.white,
             body: SafeArea(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              child: Column(
                 children: <Widget>[
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      RaisedButton(
-                        child: Icon(
-                          Icons.add,
-                          size: 100,
-                        ),
-                        onPressed: () {
-                          //Navigator.pushNamed(context, AddExpense.id);
-                          Navigator.push(
-                              context,
-                              new MaterialPageRoute(
-                                  builder: (context) => new Expenses()));
-                        },
-                      ),
-                      Container(
-                        width: 150,
-                        height: 150,
-                        child: Icon(
-                          Icons.insert_chart,
-                          size: 100,
-                          color: Colors.white,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.black87,
-                        ),
-                      ),
+                      Text('Hello *user*'),
+                      Text('Your current expenses are:')
                     ],
                   ),
+                  Expanded(
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: <Widget>[
+                        FlatButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) => new Expenses()));
+                          },
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                width: 160.0,
+                                height: 200,
+                                decoration: new BoxDecoration(
+                                    color: Colors.red[400],
+                                    borderRadius:
+                                        new BorderRadius.circular(20)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        FlatButton(
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                width: 160.0,
+                                height: 200,
+                                decoration: new BoxDecoration(
+                                    color: Colors.blue[400],
+                                    borderRadius:
+                                        new BorderRadius.circular(20)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        FlatButton(
+                          child: Column(
+                            children: <Widget>[
+                              Container(
+                                width: 160.0,
+                                height: 200,
+                                decoration: new BoxDecoration(
+                                    color: Colors.purple[400],
+                                    borderRadius:
+                                        new BorderRadius.circular(20)),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      Container(
-                        width: 150,
-                        height: 150,
-                        child: Icon(
-                          Icons.redeem,
-                          size: 100,
-                          color: Colors.white,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.black87,
-                        ),
-                      ),
-                      Container(
-                        width: 150,
-                        height: 150,
-                        child: Icon(
-                          Icons.event,
-                          size: 100,
-                          color: Colors.white,
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: Colors.black87,
-                        ),
+                      Text(
+                        'Your latest expenses:',
                       ),
                     ],
                   )

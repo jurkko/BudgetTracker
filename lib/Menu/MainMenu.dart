@@ -86,8 +86,11 @@ class Menu extends StatelessWidget {
                                     color: Colors.red[400],
                                     borderRadius:
                                         new BorderRadius.circular(20)),
+                                child: Center(child: Text("TRASH",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),)),
                               ),
+                              
                             ],
+                            
                           ),
                         ),
                         FlatButton(
@@ -100,6 +103,7 @@ class Menu extends StatelessWidget {
                                     color: Colors.blue[400],
                                     borderRadius:
                                         new BorderRadius.circular(20)),
+                                child: Center(child: Text("CANCER",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),)),
                               ),
                             ],
                           ),
@@ -114,6 +118,7 @@ class Menu extends StatelessWidget {
                                     color: Colors.purple[400],
                                     borderRadius:
                                         new BorderRadius.circular(20)),
+                                child: Center(child: Text("UBI ME",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),)),
                               )
                             ],
                           ),

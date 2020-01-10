@@ -24,7 +24,7 @@ class _StartViewState extends State<StartView> {
                 new Container(
                     height: 150.0,
                     width:150.0,
-                    child: Image.asset('images/JustPiggieLogo.png'),
+                    child: Image.asset('images/Red_Pig_Logo.png'),
                )
               ],
             ),

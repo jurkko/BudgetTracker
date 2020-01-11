@@ -15,10 +15,11 @@ class _Expenses extends State<Expenses> {
   final _firestore = Firestore.instance;
   FirebaseUser loggedInUser;
 
+  static String id; //<-- šrotAlert: Ne gre najde mi v streamu loggedInUser.uid
+
   @override
   void initState() {
     getCurrentUser();
-    //getExpensesStream();
   }
 
   void getCurrentUser() async {
@@ -27,6 +28,8 @@ class _Expenses extends State<Expenses> {
       if (user != null) {
         loggedInUser = user;
         getExpensesStream(loggedInUser);
+        id = user.uid;
+        print(user.uid);
       }
     } catch (E) {}
   }
@@ -49,31 +52,32 @@ class _Expenses extends State<Expenses> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 24.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            StreamBuilder<QuerySnapshot>(
-                stream: _firestore.collection('Expense').snapshots(),
+            StreamBuilder(
+                stream: _firestore
+                    .collection('Expense')
+                    .where('Sender', isEqualTo: '1234@gmail.com')
+                    .snapshots(),
                 builder: (context, snapshot) {
-                  final expenses = snapshot.data.documents;
-                  List<Text> expensesWidgets = [];
-                  for (var expense in expenses) {
-                    final expenseText = expense.data['Value'];
-                    final expenseCategory = expense.data['Category'];
+                  List<ExpenseContainer> expenseWidgets = [];
+                  if (snapshot.hasData) {
+                    final expenses = snapshot.data.documents;
+                    for (var expense in expenses) {
+                      final expenseText = expense.data['Value'];
 
-                    final expenseWidget = Text(
-                      ' and ',
-                      style: TextStyle(
-                        fontSize: 20,
+                      final expenseWidget = ExpenseContainer(
+                        value: expenseText,
+                      );
+                      expenseWidgets.add(expenseWidget);
+                    }
+                    return Expanded(
+                      child: ListView(
+                        children: expenseWidgets,
                       ),
                     );
-                    expensesWidgets.add(expenseWidget);
                   }
-                  return Expanded(
-                    child: ListView(
-                      children: expensesWidgets,
-                    ),
-                  );
                 })
           ],
         ),
@@ -92,14 +96,30 @@ class _Expenses extends State<Expenses> {
 }
 
 class ExpenseContainer extends StatelessWidget {
+  ExpenseContainer({this.value});
+  final String value;
+
   @override
   Widget build(BuildContext context) {
-    Text(
-      ' and ',
-      style: TextStyle(
-        fontSize: 20,
-      ),
-    );
-    return Container();
+    return Padding(
+        padding: EdgeInsets.all(10.0),
+        child: Column(
+          children: <Widget>[
+            Material(
+              elevation: 5,
+              color: Colors.redAccent,
+              borderRadius: BorderRadius.circular(30),
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  '$value and ',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ));
   }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:budget_sidekick/Menu/MainMenu.dart';
 
 class AddExpense extends StatefulWidget {
   static const String id = 'add_expense_screen';
@@ -14,7 +13,7 @@ class _AddExpenseScreenState extends State<AddExpense> {
   final _auth = FirebaseAuth.instance;
   final _firestore = Firestore.instance;
   FirebaseUser loggedInUser;
-
+  List<String> categories = ['other', 'food', 'clothes', 'drugs', 'alcohol'];
   String category;
   String sum;
 
@@ -68,7 +67,7 @@ class _AddExpenseScreenState extends State<AddExpense> {
             FlatButton(
                 onPressed: () {
                   _firestore.collection('Expense').add({
-                    'Category': 'food',
+                    'Category': category,
                     'Sender': loggedInUser.email,
                     'Value': sum,
                   });

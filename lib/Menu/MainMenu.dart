@@ -1,22 +1,29 @@
+import 'package:budget_sidekick/Event/Events.dart';
+import 'package:budget_sidekick/Expenses/AddExpense.dart';
 import 'package:budget_sidekick/Expenses/Expenses.dart';
+import 'package:budget_sidekick/Menu/HomePage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:budget_sidekick/Expenses/AddExpense.dart';
 
 void main() {
-  runApp(Start());
+  runApp(MenuView());
 }
 
-class Start extends StatelessWidget {
+class MenuView extends StatefulWidget {
   static const String id = 'menu_screen';
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(home: Menu());
-  }
+  _MenuViewState createState() => _MenuViewState();
 }
 
-class Menu extends StatelessWidget {
+class _MenuViewState extends State<MenuView> {
+  int _selectedPage = 0;
+  final _pageOptions = [
+    Expenses(),
+    HomeScreen(),
+    Events(),
+  ];
+
   final _auth = FirebaseAuth.instance;
   FirebaseUser loggedinuser;
 
@@ -39,102 +46,28 @@ class Menu extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-            appBar: AppBar(
-              title: Center(child: Text('Budget Sidekick')),
-              leading: Icon(Icons.menu),
-              flexibleSpace: Container(
-                decoration: new BoxDecoration(
-                  gradient: new LinearGradient(
-                      colors: [
-                        const Color(0xFF3366FF),
-                        const Color(0xFF00CCFF),
-                      ],
-                      begin: const FractionalOffset(0.0, 0.0),
-                      end: const FractionalOffset(1.0, 0.0),
-                      stops: [0.0, 1.0],
-                      tileMode: TileMode.clamp),
-                ),
-              ),
-            ),
-            backgroundColor: Colors.white,
-            body: SafeArea(
-              child: Column(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Text('Hello *user*'),
-                      Text('Your current expenses are:')
-                    ],
-                  ),
-                  Expanded(
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: <Widget>[
-                        FlatButton(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (context) => new Expenses()));
-                          },
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                width: 160.0,
-                                height: 200,
-                                decoration: new BoxDecoration(
-                                    color: Colors.red[400],
-                                    borderRadius:
-                                        new BorderRadius.circular(20)),
-                                child: Center(child: Text("TRASH",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),)),
-                              ),
-                              
-                            ],
-                            
-                          ),
-                        ),
-                        FlatButton(
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                width: 160.0,
-                                height: 200,
-                                decoration: new BoxDecoration(
-                                    color: Colors.blue[400],
-                                    borderRadius:
-                                        new BorderRadius.circular(20)),
-                                child: Center(child: Text("CANCER",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),)),
-                              ),
-                            ],
-                          ),
-                        ),
-                        FlatButton(
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                width: 160.0,
-                                height: 200,
-                                decoration: new BoxDecoration(
-                                    color: Colors.purple[400],
-                                    borderRadius:
-                                        new BorderRadius.circular(20)),
-                                child: Center(child: Text("UBI ME",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),)),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Text(
-                        'Your latest expenses:',
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            )));
+      appBar: AppBar(
+        title: Text('test'),
+      ),
+      body: _pageOptions[_selectedPage],
+      bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedPage,
+          onTap: (int index) {
+            setState(() {
+              _selectedPage = index;
+            });
+          },
+          items: [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.attach_money), title: Text('Expenses')),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.home), title: Text('Home')),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.alarm), title: Text('Events')),
+          ]),
+      backgroundColor: Colors.white,
+    ));
   }
 }
+
+// Methods that can go to other file for refactoring purposes

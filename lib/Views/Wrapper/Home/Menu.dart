@@ -13,6 +13,7 @@ class MenuView extends StatefulWidget {
 }
 
 class _MenuViewState extends State<MenuView> {
+  final  primaryColor =  const Color(0xFFff1212);
  int _selectedPage = 0;
   final _pageOptions = [
     Expenses(),
@@ -43,25 +44,60 @@ class _MenuViewState extends State<MenuView> {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: Text('test'),
+        backgroundColor: primaryColor,
+        title: Text('Budget Tracker',style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+      ),
+      drawer: new Drawer(
+        child: ListView(children: <Widget>[
+          new UserAccountsDrawerHeader(
+            accountName: new Text('Current Nickname',style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20.0),),
+            accountEmail: new Text('loggedinuser.email',style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+            decoration: BoxDecoration(
+                color: Colors.red,
+            ),
+          ),
+          new ListTile(
+            title: new Text('Analyitics',style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 15.0),),
+          ),
+          new ListTile(
+            title: new Text('Coupons',style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold,fontSize: 15.0),),
+          )
+        ],),
       ),
       body: _pageOptions[_selectedPage],
-      bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedPage,
-          onTap: (int index) {
-            setState(() {
-              _selectedPage = index;
-            });
-          },
-          items: [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.attach_money), title: Text('Expenses')),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.home), title: Text('Home')),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.alarm), title: Text('Events')),
-          ]),
+      bottomNavigationBar: Theme(
+            data: Theme.of(context).copyWith(
+            canvasColor: Colors.white,
+        primaryColor: primaryColor,
+        textTheme: Theme
+            .of(context)
+            .textTheme
+            .copyWith(caption: new TextStyle(color: Colors.black))),
+            child: Container(
+              decoration: new BoxDecoration(
+                border: Border(
+                  top: BorderSide(color: primaryColor,width: 2.0)
+                )
+              ),
+              child: BottomNavigationBar(
+              currentIndex: _selectedPage,
+              onTap: (int index) {
+                setState(() {
+                  _selectedPage = index;
+                });
+              },
+              items: [ 
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.attach_money), title: Text('Expenses', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),)),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.home), title: Text('Home',style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),)),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.alarm), title: Text('Events',style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),),
+              ]),
+            ),
+      ),
       backgroundColor: Colors.white,
     ));
   }
+
 }

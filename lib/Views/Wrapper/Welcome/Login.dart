@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:budget_sidekick/Views/Wrapper/Home/Menu.dart';
 
 class LoginView extends StatefulWidget {
   static const String id = 'login_view';
@@ -16,6 +16,10 @@ class _LoginViewState extends State<LoginView> {
     textSelectionColor: primaryColor,
     cursorColor: primaryColor,
   );
+
+  final _auth = FirebaseAuth.instance;
+  String email;
+  String password;
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -35,7 +39,7 @@ class _LoginViewState extends State<LoginView> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: new Text("Sign In",style: new TextStyle(fontSize: 30.0)),
+                  child: new Text("Sign In",style: new TextStyle(fontSize: 30.0,fontWeight: FontWeight.bold)),
                 )
               ],
             ),
@@ -47,9 +51,15 @@ class _LoginViewState extends State<LoginView> {
               child: new Theme(
                 data: textData,
                   child: new TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                   decoration: new InputDecoration(
-                    labelText: 'Email'
+                    labelText: 'Email',
+                    
                   ),
+                  onChanged: (value) {
+                  email = value;
+                },
                 ),
               ),
             ),
@@ -59,9 +69,14 @@ class _LoginViewState extends State<LoginView> {
                 data: textData,
                 child: new TextField(
                   obscureText: true,
+                 
+                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                   decoration: new InputDecoration(
                     labelText: 'Password'
                   ),
+                  onChanged: (value) {
+                  password = value;
+                },
                 ),
               ),
             ),
@@ -78,9 +93,16 @@ class _LoginViewState extends State<LoginView> {
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: GestureDetector(
-                    onTap: (){
-                      //Navigator.pushNamed(context, LoginView.id); 
-                      //LOGIN FUNCTION
+                    onTap: () async {
+                      try {
+                        final user = await _auth.signInWithEmailAndPassword(
+                            email: email, password: password);
+                        if (user != null) {
+                          Navigator.pushNamed(context, MenuView.id);
+                        }
+                      } catch (e) {
+                        print(e);
+                      }
                     },
                         child: new Container(
                         alignment: Alignment.center,
@@ -89,7 +111,7 @@ class _LoginViewState extends State<LoginView> {
                           color: primaryColor,
                           borderRadius: new BorderRadius.circular(10.0),
                         ),
-                        child: new Text("Sign In",style: TextStyle(fontSize: 20.0,color: Colors.white),),
+                        child: new Text("Sign In",style: TextStyle(fontSize: 20.0,color: Colors.white,fontWeight: FontWeight.bold),),
                       ),
                   ),
                 ),

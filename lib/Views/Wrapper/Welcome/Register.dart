@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:budget_sidekick/Views/Wrapper/Home/Menu.dart';
 
 class RegisterView extends StatefulWidget {
   static const String id = 'register_view';
@@ -7,6 +9,10 @@ class RegisterView extends StatefulWidget {
 }
 
 class _RegisterViewState extends State<RegisterView> {
+   final _auth = FirebaseAuth.instance;
+  String email;
+  String password;
+
   static final primaryColor =  const Color(0xFFff1212);
   final textData = new ThemeData(
     primaryColor: primaryColor,
@@ -33,7 +39,7 @@ class _RegisterViewState extends State<RegisterView> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: new Text("Create Account",style: new TextStyle(fontSize: 30.0)),
+                  child: new Text("Create Account",style: new TextStyle(fontSize: 30.0,fontWeight: FontWeight.bold)),
                 )
               ],
             ),
@@ -45,9 +51,14 @@ class _RegisterViewState extends State<RegisterView> {
               child: new Theme(
                 data: textData,
                   child: new TextField(
+                  keyboardType: TextInputType.emailAddress,
+                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                   decoration: new InputDecoration(
                     labelText: 'Email'
                   ),
+                  onChanged: (value) {
+                  email = value;
+                },
                 ),
               ),
             ),
@@ -57,9 +68,13 @@ class _RegisterViewState extends State<RegisterView> {
                 data: textData,
                 child: new TextField(
                   obscureText: true,
+                  style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                   decoration: new InputDecoration(
                     labelText: 'Password'
                   ),
+                  onChanged: (value) {
+                  password = value;
+                },
                 ),
               ),
             ),
@@ -76,9 +91,17 @@ class _RegisterViewState extends State<RegisterView> {
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: GestureDetector(
-                    onTap: (){
-                      //Navigator.pushNamed(context, LoginView.id); 
-                      //REGISTER FUNCTION
+                    onTap: () async {
+                      try {
+                        final newUser =
+                            await _auth.createUserWithEmailAndPassword(
+                                email: email, password: password);
+                        if (newUser != null) {
+                          Navigator.pushNamed(context, MenuView.id);
+                        }
+                      } catch (e) {
+                        print(e);
+                      }
                     },
                         child: new Container(
                         alignment: Alignment.center,
@@ -88,7 +111,7 @@ class _RegisterViewState extends State<RegisterView> {
                           border: Border.all(color: primaryColor),
                           borderRadius: new BorderRadius.circular(10.0),
                         ),
-                        child: new Text("Register",style: TextStyle(fontSize: 20.0,color: Colors.black),),
+                        child: new Text("Register",style: TextStyle(fontSize: 20.0,color: Colors.black,fontWeight: FontWeight.bold),),
                       ),
                   ),
                 ),

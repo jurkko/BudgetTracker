@@ -33,7 +33,7 @@ class _StartViewState extends State<StartView> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: new Text("Budget Sidekick",style: new TextStyle(fontSize: 30.0)),
+                  child: new Text("Budget Sidekick",style: new TextStyle(fontSize: 30.0,fontWeight: FontWeight.bold)),
                 )
               ],
             ),
@@ -53,7 +53,7 @@ class _StartViewState extends State<StartView> {
                           color: primaryColor,
                           borderRadius: new BorderRadius.circular(10.0),
                         ),
-                        child: new Text("Sign In",style: TextStyle(fontSize: 20.0,color: Colors.white),),
+                        child: new Text("Sign In",style: TextStyle(fontSize: 20.0,color: Colors.white,fontWeight: FontWeight.bold),),
                       ),
                   ),
                 ),
@@ -77,7 +77,7 @@ class _StartViewState extends State<StartView> {
                           borderRadius: new BorderRadius.circular(10.0),
                           border: Border.all(color: primaryColor),
                         ),
-                        child: new Text("Create Account",style: TextStyle(fontSize: 20.0,color: Colors.black),),
+                        child: new Text("Create Account",style: TextStyle(fontSize: 20.0,color: Colors.black, fontWeight: FontWeight.bold),),
                       ),
                   ),
                 ),

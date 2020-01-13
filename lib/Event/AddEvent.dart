@@ -16,8 +16,8 @@ class _AddEventScreenState extends State<AddEvent> {
   FirebaseUser loggedInUser;
 
   String eventName;
-  String target;
-  String current;
+  int target;
+  int current;
   String dateTime; // TODO Date
 
   @override
@@ -34,47 +34,62 @@ class _AddEventScreenState extends State<AddEvent> {
       }
     } catch (E) {}
   }
-    //TODO FIX
-//  showAlertDialog(BuildContext context) {
-//
-//    // set up the buttons
-//    Widget cancelButton = FlatButton(
-//      child: Text("Cancel"),
-//      onPressed:  () {Navigator.pop(context);},
-//    );
-//    Widget continueButton = FlatButton(
-//      child: Text("Continue"),
-//      onPressed:  () {
-//        _firestore.collection('Event').add({
-//          'Current': current,
-//          'Duedate': dateTime,
-//          'Target': target,
-//          'Name': eventName,
-//          'Email': loggedInUser.email,
-//        });
-//        Navigator.pop(context);
-//      },
-//    );
-//
-//    // set up the AlertDialog
-//    AlertDialog alert = AlertDialog(
-//      title: Text("AlertDialog"),
-//      content: Text("You forgot to enter a field"),
-//      actions: [
-//        cancelButton,
-//        continueButton,
-//      ],
-//    );
-//
-//    // show the dialog
-//    showDialog(
-//      context: context,
-//      barrierDismissible: false,
-//      builder: (BuildContext context) {
-//        return alert;
-//      },
-//    );
-//  }
+  errorAlert(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Invalid inputs'),
+          content: const Text('Target cannot be lower than current saved value.'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  showAlertDialog(BuildContext context) {
+
+    // set up the buttons
+    Widget cancelButton = FlatButton(
+      child: Text("Cancel"),
+      onPressed:  () {
+        Navigator.of(context, rootNavigator: true).pop();
+        Navigator.pop(context);
+        },
+    );
+    Widget continueButton = FlatButton(
+      child: Text("Continue"),
+      onPressed:  () {
+
+        Navigator.of(context, rootNavigator: true).pop();
+      },
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("AlertDialog"),
+      content: Text("You forgot to enter a field"),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +104,6 @@ class _AddEventScreenState extends State<AddEvent> {
               height: 48.0,
             ),
             TextField(
-              controller: TextEditingController()..text = 'Event name',
               keyboardType: TextInputType.text,
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black),
@@ -118,7 +132,7 @@ class _AddEventScreenState extends State<AddEvent> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black),
               onChanged: (value) {
-                target = value;
+                target = int.parse(value);
               },
             ),
             SizedBox(
@@ -130,15 +144,17 @@ class _AddEventScreenState extends State<AddEvent> {
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black),
               onChanged: (value) {
-                current = value;
+                current = int.parse(value);
               },
             ),
             FlatButton(
                 onPressed: () {
-                  if(target==null || eventName==null){
-                    // TODO Call dialog
-                    //showAlertDialog(context);
-                  }else {
+                  if(target==null || eventName==null || current==null || dateTime==null){
+                    showAlertDialog(context);
+                  } else if(current>target) {
+                    // TODO some other alert
+                    errorAlert(context);
+                  } else {
                     _firestore.collection('Event').add({
                       'Current': current,
                       'Duedate': dateTime,
@@ -146,6 +162,7 @@ class _AddEventScreenState extends State<AddEvent> {
                       'Name': eventName,
                       'uid': loggedInUser.uid,
                     });
+                    Navigator.pop(context);
                   }
                 },
                 child: Text('Add event'))

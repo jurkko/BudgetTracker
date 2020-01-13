@@ -31,7 +31,10 @@ class _Events extends State<Events> {
   }
 
   void getEventsStream() async {
-    await for (var snapshot in _firestore.collection('Event').snapshots()) {
+    await for (var snapshot in _firestore
+        .collection('Event')
+        .where('user', isEqualTo: loggedInUser.uid)
+        .snapshots()) {
       for (var message in snapshot.documents) {
         print(message.data);
       }
@@ -47,7 +50,32 @@ class _Events extends State<Events> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[],
+          children: <Widget>[
+            StreamBuilder<QuerySnapshot>(
+                stream: _firestore.collection('Event').snapshots(),
+                builder: (context, snapshot) {
+                  final events = snapshot.data.documents;
+                  List<Text> eventsWidgets = [];
+                  for (var e in events) {
+                    final eventsName = e.data['Name'];
+                    final eventsTarget = e.data['Target'];
+                    final eventsCurrent = e.data['Current'];
+
+                    final expenseWidget = Text(
+                      '$eventsName , $eventsCurrent / $eventsTarget' ,
+                      style: TextStyle(
+                        fontSize: 20,
+                      ),
+                    );
+                    eventsWidgets.add(expenseWidget);
+                  }
+                  return Expanded(
+                    child: ListView(
+                      children: eventsWidgets,
+                    ),
+                  );
+                })
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
